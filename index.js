@@ -10,11 +10,12 @@ const corsOptions = {
 }
 
 app.get('/:stock', cors(corsOptions), (req, res) => {
-  if (!acoes.includes(req.params.stock)) {
+  const stock = req.params.stock.toUpperCase()
+
+  if (!acoes.includes(stock)) {
     return res.status(500)
   }
   
-  const stock = req.params.stock.toUpperCase()
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${stock}.SA?includePrePost=false&interval=1d&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance`
 
   request.post(url, (err, reqPost, body) => {
