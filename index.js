@@ -7,10 +7,14 @@ app.get('/:stock', (req, res) => {
   if (req.params.stock.length > 10) {
     return res.status(500)
   }
+
+  console.log(req.params)
   
   const stock = req.params.stock.toUpperCase()
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${stock}.SA?includePrePost=false&interval=1d&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance`
   
+  console.log(stock)
+
   request.post(url, (err, reqPost, body) => {
     if (err) {
       return res.status(500).send(err.message || err)
@@ -18,6 +22,8 @@ app.get('/:stock', (req, res) => {
 
     const chart = JSON.parse(body)
     const result = chart && chart.result && chart.result.length && chart.result[0] || false
+
+    console.log(chart)
 
     if (result) {
       return res.status(200).send({
