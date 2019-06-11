@@ -1,4 +1,4 @@
-const req = require('request')
+const request = require('request')
 const app = require('express')()
 
 const port = process.env.PORT || 3000
@@ -11,7 +11,7 @@ app.get('/:stock', (req, res) => {
   const stock = req.params.stock.toUpperCase()
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${stock}.SA?includePrePost=false&interval=1d&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance`
   
-  req.post(url, (err, req, body) => {
+  request.post(url, (err, reqPost, body) => {
     if (err) {
       return res.status(500).send(err.message || err)
     }
