@@ -1,9 +1,28 @@
 const request = require('request')
+const cors = require('cors')
 const app = require('express')()
 
 const port = process.env.PORT || 3000
 
-app.get('/:stock', (req, res) => {
+const whitelist = [
+  'http://localhost:3000',
+  'https://supercarteira.com',
+  'https://api.supercarteira.com',
+  'https://lucasfontesgaspareto.github.io',
+  'https://supercarteira.herokuapp.com/admin'
+]
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.get('/:stock', cors(corsOptions), (req, res) => {
   if (req.params.stock.length > 10) {
     return res.status(500)
   }
